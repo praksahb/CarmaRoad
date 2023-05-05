@@ -2,13 +2,13 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-/Chest-System/[Ll]ibrary/
-/Chest-System/[Tt]emp/
-/Chest-System/[Oo]bj/
-/Chest-System/[Bb]uild/
-/Chest-System/[Bb]uilds/
-/Chest-System/[Ll]ogs/
-/Chest-System/[Mm]emoryCaptures/
+/CarmaRoad/[Ll]ibrary/
+/CarmaRoad/[Tt]emp/
+/CarmaRoad/[Oo]bj/
+/CarmaRoad/[Bb]uild/
+/CarmaRoad/[Bb]uilds/
+/CarmaRoad/[Ll]ogs/
+/CarmaRoad/[Mm]emoryCaptures/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
