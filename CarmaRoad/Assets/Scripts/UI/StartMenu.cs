@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace KarmaRoad
+namespace CarmaRoad.UI
 {
     public class StartMenu : MonoBehaviour
     {

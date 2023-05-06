@@ -1,74 +1,76 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-
-public class VehicleMovementController : PlayerInputActions.IVehicleActions
+namespace CarmaRoad.Player
 {
-    public Vector2 MoveDirInput { get; private set; }
-
-    private bool headlightSwitch;
-    public bool HeadlightSwitch
+    public class VehicleMovementController : PlayerInputActions.IVehicleActions
     {
-        get
+        public Vector2 MoveDirInput { get; private set; }
+
+        private bool headlightSwitch;
+        public bool HeadlightSwitch
         {
-            return headlightSwitch;
+            get
+            {
+                return headlightSwitch;
+            }
+            set
+            {
+                headlightSwitch = value;
+                PlayerService.Instance.HeadLightOnOff?.Invoke();
+            }
         }
-        set
+
+        private bool emergencyLightSwitch;
+        public bool EmergencyLightSwitch
         {
-            headlightSwitch = value;
-            PlayerService.Instance.HeadLightOnOff?.Invoke();
+            get { return emergencyLightSwitch; }
+            set
+            {
+                emergencyLightSwitch = value;
+                PlayerService.Instance.EmergencyLightOnOff?.Invoke(emergencyLightSwitch);
+            }
         }
-    }
 
-    private bool emergencyLightSwitch;
-    public bool EmergencyLightSwitch
-    {
-        get { return emergencyLightSwitch; }
-        set
+
+        private PlayerInputActions playerControls;
+
+        public VehicleMovementController()
         {
-            emergencyLightSwitch = value;
-            PlayerService.Instance.EmergencyLightOnOff?.Invoke(emergencyLightSwitch);
+            playerControls = new PlayerInputActions();
+            playerControls.Vehicle.SetCallbacks(this);
+            playerControls.Vehicle.Enable();
+            emergencyLightSwitch = true;
         }
-    }
 
-
-    private PlayerInputActions playerControls;
-
-    public VehicleMovementController()
-    {
-        playerControls = new PlayerInputActions();
-        playerControls.Vehicle.SetCallbacks(this);
-        playerControls.Vehicle.Enable();
-        emergencyLightSwitch = true;
-    }
-
-     ~VehicleMovementController()
-    {
-        playerControls.Vehicle.Disable();
-    }
-
-    public void DisableController()
-    {
-        playerControls.Vehicle.Disable();
-    }
-
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        MoveDirInput = context.ReadValue<Vector2>();
-    }
-
-    public void OnHeadLight(InputAction.CallbackContext context)
-    {
-        if(context.phase == InputActionPhase.Performed)
+        ~VehicleMovementController()
         {
-            HeadlightSwitch = !HeadlightSwitch;
+            playerControls.Vehicle.Disable();
         }
-    }
 
-    public void OnEmergencyLight(InputAction.CallbackContext context)
-    {
-        if(context.phase == InputActionPhase.Performed)
+        public void DisableController()
         {
-            EmergencyLightSwitch = !EmergencyLightSwitch;
+            playerControls.Vehicle.Disable();
+        }
+
+        public void OnMove(InputAction.CallbackContext context)
+        {
+            MoveDirInput = context.ReadValue<Vector2>();
+        }
+
+        public void OnHeadLight(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                HeadlightSwitch = !HeadlightSwitch;
+            }
+        }
+
+        public void OnEmergencyLight(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed)
+            {
+                EmergencyLightSwitch = !EmergencyLightSwitch;
+            }
         }
     }
 }

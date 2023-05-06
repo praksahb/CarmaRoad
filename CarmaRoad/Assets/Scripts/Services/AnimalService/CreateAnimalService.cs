@@ -1,14 +1,18 @@
+using CarmaRoad.Animal;
 using UnityEngine;
 
-public class CreateAnimalService : GenericMonoSingleton<CreateAnimalService>
+namespace CarmaRoad
 {
-
-    private AnimalController animalController;
-
-    public AnimalController CreateAnimal(BaseAnimalObject baseAnimal, Vector2 spawnPoint, AnimalSpawnPosition animalSpawnPosition)
+    public class CreateAnimalService : GenericMonoSingleton<CreateAnimalService>
     {
-        AnimalModel animalModel = new AnimalModel(baseAnimal);
-        animalController = new AnimalController(animalModel, baseAnimal.animalPrefab, spawnPoint, animalSpawnPosition);
-        return animalController;
+
+        private AnimalController animalController;
+
+        public AnimalController CreateAnimal(BaseAnimalObject baseAnimal, Vector2 spawnPoint, Enum.AnimalSpawnPosition animalSpawnPosition)
+        {
+            AnimalModel animalModel = new AnimalModel(baseAnimal);
+            animalController = new AnimalController(animalModel, baseAnimal.animalPrefab, spawnPoint, animalSpawnPosition);
+            return animalController;
+        }
     }
 }

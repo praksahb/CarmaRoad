@@ -1,40 +1,39 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameOver : MonoBehaviour
+namespace CarmaRoad.UI
 {
-    private Button restartBtn;
-
-    private void Awake()
+    public class GameOver : MonoBehaviour
     {
-        restartBtn = GetComponentInChildren<Button>();
-    }
+        private Button restartBtn;
 
-    private void OnEnable()
-    {
-
-        if(restartBtn != null)
+        private void Awake()
         {
-            restartBtn.onClick.AddListener(ButtonClickHandler);
+            restartBtn = GetComponentInChildren<Button>();
+        }
+
+        private void OnEnable()
+        {
+
+            if (restartBtn != null)
+            {
+                restartBtn.onClick.AddListener(ButtonClickHandler);
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (restartBtn != null)
+            {
+                restartBtn.onClick.RemoveListener(ButtonClickHandler);
+            }
+        }
+
+        private void ButtonClickHandler()
+        {
+            // Restart the scene or something 
+
+            // invoke an event or something.
         }
     }
-
-    private void OnDisable()
-    {
-        if (restartBtn != null)
-        {
-            restartBtn.onClick.RemoveListener(ButtonClickHandler);
-        }
-    }
-
-    private void ButtonClickHandler()
-    {
-        // Restart the scene or something 
-
-        // invoke an event or something.
-    }
-
-
 }

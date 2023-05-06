@@ -1,13 +1,12 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-namespace KarmaRoad.Assets.Scripts.Services.Managers
+namespace CarmaRoad
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private TileManager tilesSpawn;
-        [SerializeField] private AnimalSpawner animalSpawner;
+        [SerializeField] private Utils.TileManager tilesSpawn;
+        [SerializeField] private Animal.Spawner.AnimalSpawner animalSpawner;
 
         [SerializeField] private Light2D globalLight;
 

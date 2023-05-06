@@ -1,32 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
-public class FreezeState : IBaseState
+namespace CarmaRoad.Animal
 {
-    private float freezeTimer;
-
-    public void OnEnterState(AnimalStateManager animal)
+    public class FreezeState : IBaseState
     {
-        animal.AnimalController.PlayAnimation(AnimalAnimationClip.Idle);
-        freezeTimer = 2f;
-    }
+        private float freezeTimer;
 
-    public void OnFixedUpdate(AnimalStateManager animal)
-    {
-        if(freezeTimer <= 0f)
+        public void OnEnterState(AnimalStateManager animal)
         {
-            freezeTimer = 0f;
-            animal.ChangeState(animal.walkState);
-        } 
-        else
-        {
-            freezeTimer -= Time.fixedDeltaTime;
+            animal.AnimalController.PlayAnimation(Enum.AnimalAnimationClip.Idle);
+            freezeTimer = 2f;
         }
-    }
 
-    public void OnTriggerEnter2D(AnimalStateManager animal, Collider2D collision)
-    {
+        public void OnFixedUpdate(AnimalStateManager animal)
+        {
+            if (freezeTimer <= 0f)
+            {
+                freezeTimer = 0f;
+                animal.ChangeState(animal.walkState);
+            }
+            else
+            {
+                freezeTimer -= Time.fixedDeltaTime;
+            }
+        }
 
+        public void OnTriggerEnter2D(AnimalStateManager animal, Collider2D collision)
+        {
+
+        }
     }
 }

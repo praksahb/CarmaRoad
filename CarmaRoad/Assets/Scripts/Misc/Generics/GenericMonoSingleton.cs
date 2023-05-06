@@ -1,20 +1,23 @@
 ﻿using UnityEngine;
-
-public class GenericMonoSingleton<T> : MonoBehaviour where T : GenericMonoSingleton<T>
+namespace CarmaRoad
 {
-    private static T instance;
-    public static T Instance { get { return instance; } }
 
-    protected virtual void Awake()
+    public class GenericMonoSingleton<T> : MonoBehaviour where T : GenericMonoSingleton<T>
     {
-        if (Instance == null)
+        private static T instance;
+        public static T Instance { get { return instance; } }
+
+        protected virtual void Awake()
         {
-            instance = (T)this;
-            DontDestroyOnLoad(this as T);
-        }
-        else
-        {
-            Destroy(this);
+            if (Instance == null)
+            {
+                instance = (T)this;
+                DontDestroyOnLoad(this as T);
+            }
+            else
+            {
+                Destroy(this);
+            }
         }
     }
 }

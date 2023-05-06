@@ -1,17 +1,20 @@
-public class CarModel 
+namespace CarmaRoad.Player
 {
-    public CarModel(BaseVehicle baseVehicle)
+    public class CarModel
     {
-        CarType = baseVehicle.carType;
-        SpeedRate = baseVehicle.accelerationFactor;
-        TurnRate = baseVehicle.turnFactor;
-        DriftRate = baseVehicle.driftFactor;
-        MaxSpeed = baseVehicle.maxSpeed;
-    }
+        public CarModel(BaseVehicle baseVehicle)
+        {
+            CarType = baseVehicle.carType;
+            SpeedRate = baseVehicle.accelerationFactor;
+            TurnRate = baseVehicle.turnFactor;
+            DriftRate = baseVehicle.driftFactor;
+            MaxSpeed = baseVehicle.maxSpeed;
+        }
 
-    public CarType CarType { get; }
-    public float SpeedRate { get; }
-    public float TurnRate { get; }
-    public float DriftRate { get; }
-    public float MaxSpeed { get; }
+        public Enum.CarType CarType { get; }
+        public float SpeedRate { get; }
+        public float TurnRate { get; }
+        public float DriftRate { get; }
+        public float MaxSpeed { get; }
+    }
 }
