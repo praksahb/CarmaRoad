@@ -1,77 +1,80 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class CarView : MonoBehaviour
+namespace CarmaRoad.Player
 {
-    public Rigidbody2D Rb2d { get; private set; }
-    public CarController CarController { get; set; }
-
-    public float PrevVelocityMagnitude { get; private set; }
-
-    private Animator carAnimController;
-    private int eLightOn;
-    private int eLightOff;
-
-    private float accelerationInput = 0;
-    private float steeringInput = 0;
-
-    [SerializeField] private Light2D headlightLeft;
-    [SerializeField] private Light2D headlightRight;
-
-    private void Awake()
+    public class CarView : MonoBehaviour
     {
-        Rb2d = GetComponent<Rigidbody2D>();
-        carAnimController = GetComponent<Animator>();
-        eLightOn = Animator.StringToHash("LightOn");
-        eLightOff = Animator.StringToHash("LightOff");
-    }
+        public Rigidbody2D Rb2d { get; private set; }
+        public CarController CarController { get; set; }
 
-    private void OnEnable()
-    {
-        PlayerService.Instance.HeadLightOnOff += SwitchHeadLights;
-        PlayerService.Instance.EmergencyLightOnOff += SwitchEmergencyLights;
-    }
+        public float PrevVelocityMagnitude { get; private set; }
 
-    private void OnDisable()
-    {
-        PlayerService.Instance.HeadLightOnOff -= SwitchHeadLights;
-        PlayerService.Instance.EmergencyLightOnOff -= SwitchEmergencyLights;
+        private Animator carAnimController;
+        private int eLightOn;
+        private int eLightOff;
 
-    }
+        private float accelerationInput = 0;
+        private float steeringInput = 0;
 
-    private void FixedUpdate()
-    {
-        SetInputVector(CarController.CarMoveInput.MoveDirInput);
-        CarController.MoveForward(accelerationInput);
-        CarController.RotateSteering(steeringInput);
-        CarController.ReduceSideVelocity();
+        [SerializeField] private Light2D headlightLeft;
+        [SerializeField] private Light2D headlightRight;
 
-        PrevVelocityMagnitude = Rb2d.velocity.magnitude;
+        private void Awake()
+        {
+            Rb2d = GetComponent<Rigidbody2D>();
+            carAnimController = GetComponent<Animator>();
+            eLightOn = Animator.StringToHash("LightOn");
+            eLightOff = Animator.StringToHash("LightOff");
+        }
 
-    }
+        private void OnEnable()
+        {
+            PlayerService.Instance.HeadLightOnOff += SwitchHeadLights;
+            PlayerService.Instance.EmergencyLightOnOff += SwitchEmergencyLights;
+        }
 
-    public void SetInputVector(Vector2 inputVector)
-    {
-        steeringInput = inputVector.x;
-        accelerationInput = inputVector.y;
-    }
+        private void OnDisable()
+        {
+            PlayerService.Instance.HeadLightOnOff -= SwitchHeadLights;
+            PlayerService.Instance.EmergencyLightOnOff -= SwitchEmergencyLights;
 
-    private void SwitchHeadLights()
-    {
+        }
+
+        private void FixedUpdate()
+        {
+            SetInputVector(CarController.CarMoveInput.MoveDirInput);
+            CarController.MoveForward(accelerationInput);
+            CarController.RotateSteering(steeringInput);
+            CarController.ReduceSideVelocity();
+
+            PrevVelocityMagnitude = Rb2d.velocity.magnitude;
+
+        }
+
+        public void SetInputVector(Vector2 inputVector)
+        {
+            steeringInput = inputVector.x;
+            accelerationInput = inputVector.y;
+        }
+
+        private void SwitchHeadLights()
+        {
             headlightLeft.enabled = !headlightLeft.enabled;
             headlightRight.enabled = !headlightRight.enabled;
-    }
+        }
 
-    private void SwitchEmergencyLights(bool isLightOn)
-    {
-        if(isLightOn)
+        private void SwitchEmergencyLights(bool isLightOn)
         {
-            carAnimController.Play(eLightOn);
-        } 
-        else
-        {
-            carAnimController.Play(eLightOff);
-            carAnimController.Play(eLightOff);
+            if (isLightOn)
+            {
+                carAnimController.Play(eLightOn);
+            }
+            else
+            {
+                carAnimController.Play(eLightOff);
+                carAnimController.Play(eLightOff);
+            }
         }
     }
 }

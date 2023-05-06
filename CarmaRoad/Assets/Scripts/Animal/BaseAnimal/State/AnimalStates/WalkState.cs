@@ -1,32 +1,34 @@
 using UnityEngine;
-
-public class WalkState : IBaseState
+namespace CarmaRoad.Animal
 {
-    public void OnEnterState(AnimalStateManager animal)
+    public class WalkState : IBaseState
     {
-        animal.AnimalController.PlayAnimation(AnimalAnimationClip.Walk);
-    }
-
-    public void OnFixedUpdate(AnimalStateManager animal)
-    {
-        animal.AnimalController.MoveAnimal();
-    }
-
-    public void OnTriggerEnter2D(AnimalStateManager animal, Collider2D collision)
-    {
-        if (collision.gameObject.TryGetComponent<CarView>(out _))
+        public void OnEnterState(AnimalStateManager animal)
         {
-            if (animal.AnimalController.AnimalModel.AnimalType == AnimalType.Large)
-            {
-                animal.ChangeState(animal.freezeState);
-            }
+            animal.AnimalController.PlayAnimation(Enum.AnimalAnimationClip.Walk);
+        }
 
-            if (animal.AnimalController.AnimalModel.AnimalType == AnimalType.Human)
+        public void OnFixedUpdate(AnimalStateManager animal)
+        {
+            animal.AnimalController.MoveAnimal();
+        }
+
+        public void OnTriggerEnter2D(AnimalStateManager animal, Collider2D collision)
+        {
+            if (collision.gameObject.TryGetComponent<Player.CarView>(out _))
             {
-                // turn back?
-                // needs custom logic to check to see if they can cross road or not
-                // or just turn them back
-                animal.AnimalController.ChangeDirection();
+                if (animal.AnimalController.AnimalModel.AnimalType == Enum.AnimalType.Large)
+                {
+                    animal.ChangeState(animal.freezeState);
+                }
+
+                if (animal.AnimalController.AnimalModel.AnimalType == Enum.AnimalType.Human)
+                {
+                    // turn back?
+                    // needs custom logic to check to see if they can cross road or not
+                    // or just turn them back
+                    animal.AnimalController.ChangeDirection();
+                }
             }
         }
     }

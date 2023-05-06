@@ -1,21 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class SpawningState : IAnimalSpawnerState
+namespace CarmaRoad.Animal.Spawner
 {
-    public void EnterState(AnimalSpawner animalSpawner)
+    public class SpawningState : IAnimalSpawnerState
     {
-        // Spawn The animal here.
-        animalSpawner.SpawnAnimal();
+        public void EnterState(AnimalSpawner animalSpawner)
+        {
+            // Spawn The animal here.
+            animalSpawner.SpawnAnimal();
 
-        // transition back to waiting state.
-        animalSpawner.ChangeState(animalSpawner.waitingState);
+            // transition back to waiting state.
+            animalSpawner.ChangeState(animalSpawner.waitingState);
+        }
+
+        public void ExitState(AnimalSpawner animalSpawner)
+        {
+            //Debug.Log("exiting state: " + animalSpawner.CurrentState);
+        }
+
     }
-
-    public void ExitState(AnimalSpawner animalSpawner)
-    {
-        //Debug.Log("exiting state: " + animalSpawner.CurrentState);
-    }
-
 }

@@ -1,51 +1,52 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class GenericMonoPool<T> : GenericMonoSingleton<GenericMonoPool<T>> where T : class
+namespace CarmaRoad
 {
-    private List<PooledItem<T>> pooledItems = new List<PooledItem<T>>();
-
-    public virtual T GetItem()
+    public class GenericMonoPool<T> : GenericMonoSingleton<GenericMonoPool<T>> where T : class
     {
-        if (pooledItems.Count > 0)
+        private List<PooledItem<T>> pooledItems = new List<PooledItem<T>>();
+
+        public virtual T GetItem()
         {
-            PooledItem<T> item = pooledItems.Find(i => i.IsUsed == false);
-            if (item != null)
+            if (pooledItems.Count > 0)
             {
-                item.IsUsed = true;
-                return item.Item;
+                PooledItem<T> item = pooledItems.Find(i => i.IsUsed == false);
+                if (item != null)
+                {
+                    item.IsUsed = true;
+                    return item.Item;
+                }
             }
+            return CreateNewPooledItem();
         }
-        return CreateNewPooledItem();
-    }
 
-    public virtual void ReturnItem(T item)
-    {
-        PooledItem<T> pooledItem = pooledItems.Find(i => i.Item.Equals(item));
-        if (pooledItem != null)
+        public virtual void ReturnItem(T item)
         {
-            pooledItem.IsUsed = false;
+            PooledItem<T> pooledItem = pooledItems.Find(i => i.Item.Equals(item));
+            if (pooledItem != null)
+            {
+                pooledItem.IsUsed = false;
+            }
+
         }
 
-    }
+        private T CreateNewPooledItem()
+        {
+            PooledItem<T> pooledItem = new PooledItem<T>();
+            pooledItem.Item = CreateItem();
+            pooledItem.IsUsed = true;
+            pooledItems.Add(pooledItem);
+            return pooledItem.Item;
+        }
 
-    private T CreateNewPooledItem()
-    {
-        PooledItem<T> pooledItem = new PooledItem<T>();
-        pooledItem.Item = CreateItem();
-        pooledItem.IsUsed = true;
-        pooledItems.Add(pooledItem);
-        return pooledItem.Item;
+        protected virtual T CreateItem()
+        {
+            return null;
+        }
     }
-
-    protected virtual T CreateItem()
+    public class PooledItem<T>
     {
-        return null;
+        public T Item;
+        public bool IsUsed;
     }
-}
-public class PooledItem<T>
-{
-    public T Item;
-    public bool IsUsed;
 }

@@ -1,53 +1,55 @@
 using UnityEngine;
 using UnityEngine.UI;
-
-public class KarmaBar : MonoBehaviour
+namespace CarmaRoad.UI
 {
-    [SerializeField] private Image fillImage;
-
-    private float maxKarma;
-    private float fillValue;
-    private Slider slider;
-    private Color prevColor;
-
-    private void Awake()
+    public class KarmaBar : MonoBehaviour
     {
-        slider = GetComponent<Slider>();
-        maxKarma = Karma01Tracker.Instance.MaxKarma;
-        prevColor = fillImage.color;
-    }
+        [SerializeField] private Image fillImage;
 
-    private void OnEnable()
-    {
-        Karma01Tracker.Instance.OnKarmaChanged += ChangeSliderFillValue;
-    }
+        private float maxKarma;
+        private float fillValue;
+        private Slider slider;
+        private Color prevColor;
 
-    private void OnDisable()
-    {
-        Karma01Tracker.Instance.OnKarmaChanged -= ChangeSliderFillValue;
-    }
-
-    private void ChangeSliderFillValue(int newKarma)
-    {    
-        fillValue = (float)newKarma / maxKarma;
-        slider.value = fillValue;
-        if(slider.value <= slider.minValue)
+        private void Awake()
         {
-            fillImage.enabled = false;
+            slider = GetComponent<Slider>();
+            maxKarma = KarmaaManager.Instance.MaxKarma;
+            prevColor = fillImage.color;
         }
 
-        if(slider.value > slider.maxValue && !fillImage.enabled)
+        private void OnEnable()
         {
-            fillImage.enabled = true;
+            KarmaaManager.Instance.OnKarmaChanged += ChangeSliderFillValue;
         }
 
-        if(fillValue <= slider.maxValue / 2)
+        private void OnDisable()
         {
-            fillImage.color = Color.red;
+            KarmaaManager.Instance.OnKarmaChanged -= ChangeSliderFillValue;
         }
-        else if(fillValue > slider.maxValue / 2)
+
+        private void ChangeSliderFillValue(int newKarma)
         {
-            fillImage.color = prevColor;
+            fillValue = (float)newKarma / maxKarma;
+            slider.value = fillValue;
+            if (slider.value <= slider.minValue)
+            {
+                fillImage.enabled = false;
+            }
+
+            if (slider.value > slider.maxValue && !fillImage.enabled)
+            {
+                fillImage.enabled = true;
+            }
+
+            if (fillValue <= slider.maxValue / 2)
+            {
+                fillImage.color = Color.red;
+            }
+            else if (fillValue > slider.maxValue / 2)
+            {
+                fillImage.color = prevColor;
+            }
         }
     }
 }

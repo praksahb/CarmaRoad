@@ -1,62 +1,65 @@
 using UnityEngine;
-
-public class CameraMonoController : MonoBehaviour
+namespace CarmaRoad.Utils
 {
 
-    public float smoothSpeed = 1f;
-    public float smoothTime = 0.1f;
-    public Vector3 locationOffset;
-
-    private Transform target;
-    private Vector3 desiredPosition = Vector3.zero;
-    private Vector3 smoothedPosition = Vector3.zero;
-    private Vector3 currentVelocity;
-
-    private void OnEnable()
+    public class CameraMonoController : MonoBehaviour
     {
-        PlayerService.Instance.AssignPlayerTransform += AssignTargetTransform;
-        PlayerService.Instance.UnassignPlayerTransform += UnassignTargetTransform;
-    }
 
-    private void OnDisable()
-    {
-        PlayerService.Instance.AssignPlayerTransform -= AssignTargetTransform;
-        PlayerService.Instance.UnassignPlayerTransform -= UnassignTargetTransform;
-    }
+        public float smoothSpeed = 1f;
+        public float smoothTime = 0.1f;
+        public Vector3 locationOffset;
 
-    void LateUpdate()
-    {
-        if (target == null) return;
+        private Transform target;
+        private Vector3 desiredPosition = Vector3.zero;
+        private Vector3 smoothedPosition = Vector3.zero;
+        private Vector3 currentVelocity;
 
-        //FollowVehicleUsingSmoothDamp();
+        private void OnEnable()
+        {
+            PlayerService.Instance.AssignPlayerTransform += AssignTargetTransform;
+            PlayerService.Instance.UnassignPlayerTransform += UnassignTargetTransform;
+        }
 
-        FollowVehicleUsingLerp();
-    }
+        private void OnDisable()
+        {
+            PlayerService.Instance.AssignPlayerTransform -= AssignTargetTransform;
+            PlayerService.Instance.UnassignPlayerTransform -= UnassignTargetTransform;
+        }
 
-    private void AssignTargetTransform(Transform playerTransform)
-    {
-        target = playerTransform;
-    }
+        void LateUpdate()
+        {
+            if (target == null) return;
 
-    private void UnassignTargetTransform()
-    {
-        target = null;
-    }
+            //FollowVehicleUsingSmoothDamp();
 
-    // this can be used later for when implementing a player being chased by ghost 
+            FollowVehicleUsingLerp();
+        }
 
-    private void FollowVehicleUsingSmoothDamp()
-    {
-        desiredPosition = target.position + locationOffset;
-        desiredPosition.z = transform.position.z;
-        transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref currentVelocity, smoothTime);
-    }
+        private void AssignTargetTransform(Transform playerTransform)
+        {
+            target = playerTransform;
+        }
 
-    private void FollowVehicleUsingLerp()
-    {
-        desiredPosition = target.position + locationOffset;
-        smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-        smoothedPosition.z = transform.position.z;
-        transform.position = smoothedPosition;
+        private void UnassignTargetTransform()
+        {
+            target = null;
+        }
+
+        // this can be used later for when implementing a player being chased by ghost 
+
+        private void FollowVehicleUsingSmoothDamp()
+        {
+            desiredPosition = target.position + locationOffset;
+            desiredPosition.z = transform.position.z;
+            transform.position = Vector3.SmoothDamp(transform.position, desiredPosition, ref currentVelocity, smoothTime);
+        }
+
+        private void FollowVehicleUsingLerp()
+        {
+            desiredPosition = target.position + locationOffset;
+            smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+            smoothedPosition.z = transform.position.z;
+            transform.position = smoothedPosition;
+        }
     }
 }
