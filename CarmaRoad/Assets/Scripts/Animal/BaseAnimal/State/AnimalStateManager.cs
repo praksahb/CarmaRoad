@@ -1,20 +1,24 @@
 using UnityEngine;
 namespace CarmaRoad.Animal
 {
+    [RequireComponent(typeof(IBaseState))]
     public class AnimalStateManager : MonoBehaviour
     {
+        public AnimalController AnimalController { get; set; }
         public IBaseState CurrentState { get; private set; }
 
         public FreezeState freezeState = new FreezeState();
         public WalkState walkState = new WalkState();
         public RunState runState = new RunState();
         public DeadState deadState = new DeadState();
-        private float velocityModifier;
 
-        public AnimalController AnimalController { get; set; }
+        private float velocityModifier;
 
         private void Start()
         {
+            // Debug.Log("AC: " + AnimalController);
+            // AnimalController reference does not get assigned when awake is called so currently calling in start.
+            // assigning ref in ctor of animal controller
             SpawnState();
             SetVelocityModifier();
         }
@@ -72,7 +76,9 @@ namespace CarmaRoad.Animal
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if (CurrentState is DeadState) return;
+#pragma warning disable IDE0001
             if (collision.gameObject.TryGetComponent<Player.CarView>(out Player.CarView vehicle))
+#pragma warning restore IDE0001
             {
                 // re adjust vehicle/ car velocity
                 float vehicleSpeed = vehicle.PrevVelocityMagnitude;

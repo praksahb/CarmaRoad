@@ -2,9 +2,10 @@ using UnityEngine;
 
 namespace CarmaRoad.Animal
 {
+    [RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
+
     public class AnimalView : MonoBehaviour
     {
-
         public Rigidbody2D RBody2D { get; private set; }
 
         public Animator animatorController { get; private set; }

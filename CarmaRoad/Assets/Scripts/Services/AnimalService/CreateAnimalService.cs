@@ -5,7 +5,6 @@ namespace CarmaRoad
 {
     public class CreateAnimalService : GenericMonoSingleton<CreateAnimalService>
     {
-
         private AnimalController animalController;
 
         public AnimalController CreateAnimal(BaseAnimalObject baseAnimal, Vector2 spawnPoint, Enum.AnimalSpawnPosition animalSpawnPosition)

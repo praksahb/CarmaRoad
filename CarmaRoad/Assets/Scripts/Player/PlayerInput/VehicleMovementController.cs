@@ -52,6 +52,12 @@ namespace CarmaRoad.Player
             playerControls.Vehicle.Disable();
         }
 
+        public void EnableController()
+        {
+            playerControls.Vehicle.Enable();
+
+        }
+
         public void OnMove(InputAction.CallbackContext context)
         {
             MoveDirInput = context.ReadValue<Vector2>();

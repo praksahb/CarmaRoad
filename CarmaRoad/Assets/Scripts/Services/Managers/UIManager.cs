@@ -9,18 +9,23 @@ namespace CarmaRoad
         [SerializeField] private UI.GameOver gameoverPanel;
         [SerializeField] private UI.StartMenu startMenuPanel;
 
+
+        // Calling from here, as UIManager is singleton and GameManager is not a singleton
         public Action GameOverCall;
         public Action StartGameCall;
+        public Action RestartGameCall;
 
         private void OnEnable()
         {
             GameOverCall += EnableGameOverPanel;
             StartGameCall += DisableStartMenu;
+            RestartGameCall += DisableGameOverPanel;
         }
         private void OnDisable()
         {
             GameOverCall -= EnableGameOverPanel;
             StartGameCall -= DisableStartMenu;
+            RestartGameCall -= DisableGameOverPanel;
         }
 
         private void DisableStartMenu()

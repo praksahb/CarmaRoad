@@ -2,6 +2,7 @@
 
 namespace CarmaRoad.Animal.Spawner
 {
+    [RequireComponent(typeof(IAnimalSpawnerState))]
     public class AnimalSpawner : MonoBehaviour
     {
         [SerializeField] private Utils.TileManager tileScroller;
@@ -11,6 +12,7 @@ namespace CarmaRoad.Animal.Spawner
         [SerializeField] private float lowerSpawnDist = 5f;
         [SerializeField] private float upperSpawnDist = 5f;
 
+        // read-only properties
         public float LowerTime
         {
             get { return lowerSpawnTime; }
@@ -21,8 +23,18 @@ namespace CarmaRoad.Animal.Spawner
             get { return upperSpawnTime; }
         }
 
+        public IAnimalSpawnerState CurrentState { get; private set; }
+
+        // public state variables
+        public SpawningState spawningState = new SpawningState();
+        public WaitingState waitingState = new WaitingState();
+        private Vector2 spawnPos;
+
         private float rightSpawn;
         private float leftSpawn;
+
+        private bool gameOverFlag;
+        private float defaultYPos;
 
         private Enum.AnimalSpawnPosition currentSpawningDirection;
         private Player.CarController playerCarController;
@@ -44,11 +56,49 @@ namespace CarmaRoad.Animal.Spawner
             PlayerService.Instance.AssignControllerRef -= SetPlayerCarController;
         }
 
-        private void SetPlayerCarController(Player.CarController carController)
+
+        public void ChangeState(IAnimalSpawnerState state)
         {
-            playerCarController = carController;
+            if (CurrentState != null)
+            {
+                CurrentState.ExitState(this);
+            }
+            if (state == null)
+            {
+                return;
+            }
+
+            CurrentState = state;
+            state.EnterState(this);
+        }
+        // called in spawningState
+        public void SpawnAnimal()
+        {
+            // random animal to be spawned
+            Enum.AllAnimals animalType = GetRandomAnimal();
+            BaseAnimalObject baseAnimal = GetBaseAnimal(animalType);
+
+            // Get Spawn Position close to vehicle
+            SpawnPosition(baseAnimal);
+
+            // create the animal.
+            CreateAnimalService.Instance.CreateAnimal(baseAnimal, spawnPos, currentSpawningDirection);
         }
 
+        public void SwitchGameOverFlag(bool IsGameOver)
+        {
+            if (IsGameOver)
+            {
+                gameOverFlag = true;
+                defaultYPos = Camera.main.transform.position.y;
+            }
+            else
+            {
+                gameOverFlag = false;
+            }
+        }
+
+        // Event Handler - initialize starting positions for spawnposition.x
         private void GetPosition(float val, Enum.AnimalSpawnPosition leftOrRight)
         {
             switch (leftOrRight)
@@ -65,57 +115,9 @@ namespace CarmaRoad.Animal.Spawner
             }
         }
 
-        public void SpawnAnimal()
+        private void SetPlayerCarController(Player.CarController carController)
         {
-            // random animal to be spawned
-            Enum.AllAnimals animalType = GetRandomAnimal();
-            BaseAnimalObject baseAnimal = GetBaseAnimal(animalType);
-
-            // Get Spawn Position close to vehicle
-            SpawnPosition(baseAnimal);
-
-            // create the animal.
-            CreateAnimalService.Instance.CreateAnimal(baseAnimal, spawnPos, currentSpawningDirection);
-        }
-
-        private void SpawnPosition(BaseAnimalObject baseAnimal)
-        {
-            // // Get Spawn Position X
-            if (currentSpawningDirection == Enum.AnimalSpawnPosition.Left)
-            {
-                currentSpawningDirection = Enum.AnimalSpawnPosition.Right;
-                spawnPos.x = rightSpawn;
-            }
-            else
-            {
-                currentSpawningDirection = Enum.AnimalSpawnPosition.Left;
-                spawnPos.x = leftSpawn;
-            }
-
-            // // Get Spawn Position Y
-            OffsetForSpawnYPosition(baseAnimal);
-        }
-
-        private void OffsetForSpawnYPosition(BaseAnimalObject baseAnimal)
-        {
-            // main formula
-            // spawnPos.y = yPos + yVeloSign * (distanceOffsetX * playerVeloY / animalVeloX) + offsetY
-
-            // origin/reference point
-            float yPos = playerCarController.CarView.transform.position.y;
-            // distance to be covered by animal in x-axis
-            float offsetX = Mathf.Abs(spawnPos.x - playerCarController.CarView.transform.position.x);
-            // speed of animal
-            float animalSpeed = baseAnimal.animalType == Enum.AnimalType.Small ? baseAnimal.runSpeed : baseAnimal.walkSpeed;
-            // time 
-            float timeToReachXPos = Mathf.Abs(offsetX) / animalSpeed;
-            // Calculate idealYposition for animal
-            float finalYPos = yPos + timeToReachXPos * playerCarController.CarView.Rb2d.velocity.y;
-            // add offset to it
-            float offsetY = Random.Range(lowerSpawnDist, upperSpawnDist);
-
-            // final y position
-            spawnPos.y = finalYPos + offsetY;
+            playerCarController = carController;
         }
 
         private Enum.AllAnimals GetRandomAnimal()
@@ -128,26 +130,58 @@ namespace CarmaRoad.Animal.Spawner
             return animalList.allAnimals[(int)animalIndex];
         }
 
-        // state related - Spawning and Waiting
-        public IAnimalSpawnerState CurrentState { get; private set; }
-
-        public SpawningState spawningState = new SpawningState();
-        public WaitingState waitingState = new WaitingState();
-        private Vector2 spawnPos;
-
-        public void ChangeState(IAnimalSpawnerState state)
+        private void SpawnPosition(BaseAnimalObject baseAnimal)
         {
-            if (CurrentState != null)
+            // // Get Spawn Position X, then swap it to alternate between the two sides
+            if (currentSpawningDirection == Enum.AnimalSpawnPosition.Left)
             {
-                CurrentState.ExitState(this);
+                currentSpawningDirection = Enum.AnimalSpawnPosition.Right;
+                spawnPos.x = rightSpawn;
             }
-            if (state == null)
+            else
             {
-                return;
+                currentSpawningDirection = Enum.AnimalSpawnPosition.Left;
+                spawnPos.x = leftSpawn;
             }
 
-            CurrentState = state;
-            state.EnterState(this);
+            // // Get Spawn Position Y
+            if (!gameOverFlag)
+            {
+                OffsetForSpawnYPosition(baseAnimal);
+            }
+            else
+            {
+                SimpleOffsetForYPos();
+            }
+
+        }
+
+        private void OffsetForSpawnYPosition(BaseAnimalObject baseAnimal)
+        {
+            // main formula
+            // dont need sign as getting sign value from playerVeloY
+            // spawnPos.y = yPos + (playerVeloY * distanceOffsetX / animalVeloX) + offsetY
+
+            // origin/reference point
+            float yPos = playerCarController.CarView.transform.position.y;
+            // distance to be covered by animal in x-axis
+            float offsetX = Mathf.Abs(spawnPos.x - playerCarController.CarView.transform.position.x);
+            // speed of animal
+            float animalSpeed = baseAnimal.animalType == Enum.AnimalType.Small ? baseAnimal.runSpeed : baseAnimal.walkSpeed;
+            // time to cover distance
+            float timeToReachXPos = Mathf.Abs(offsetX) / animalSpeed;
+            // Calculate idealYposition for animal
+            float finalYPos = yPos + timeToReachXPos * playerCarController.CarView.Rb2d.velocity.y;
+            // add offset to it
+            float offsetY = Random.Range(lowerSpawnDist, upperSpawnDist);
+
+            // final y position
+            spawnPos.y = finalYPos + offsetY;
+        }
+
+        private void SimpleOffsetForYPos()
+        {
+            spawnPos.y = defaultYPos + Random.Range(-upperSpawnDist, upperSpawnDist);
         }
     }
 }

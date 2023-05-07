@@ -1,10 +1,8 @@
 using UnityEngine;
 namespace CarmaRoad.Utils
 {
-
     public class CameraMonoController : MonoBehaviour
     {
-
         public float smoothSpeed = 1f;
         public float smoothTime = 0.1f;
         public Vector3 locationOffset;
