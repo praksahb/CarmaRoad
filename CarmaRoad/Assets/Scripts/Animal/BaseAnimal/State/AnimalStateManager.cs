@@ -68,9 +68,14 @@ namespace CarmaRoad.Animal
             CurrentState.OnFixedUpdate(this);
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerEnter2D(Collider2D collider2D)
         {
-            CurrentState.OnTriggerEnter2D(this, collision);
+            CurrentState.OnTriggerEnter2D(this, collider2D);
+        }
+
+        private void OnTriggerExit2D(Collider2D collider2D)
+        {
+            CurrentState.OnTriggerExit2D(this, collider2D);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

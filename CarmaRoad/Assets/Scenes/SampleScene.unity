@@ -553,7 +553,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2251f7fa780e6af4ba3312bdd108d265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxKarma: 10
+  maxKarma: 100
   karmaModifier: 10
 --- !u!1 &453021928
 GameObject:
@@ -1005,8 +1005,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileScroller: {fileID: 1001419110}
   animalList: {fileID: 11400000, guid: 3880773d5f3b24f4587c924bdf6a7787, type: 2}
-  lowerSpawnTime: 1
-  upperSpawnTime: 5
+  lowerSpawnTime: 3
+  upperSpawnTime: 6
   lowerSpawnDist: 2
   upperSpawnDist: 5
 --- !u!1 &732958100

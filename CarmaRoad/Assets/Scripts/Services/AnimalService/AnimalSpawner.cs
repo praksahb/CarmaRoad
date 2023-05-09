@@ -7,9 +7,9 @@ namespace CarmaRoad.Animal.Spawner
     {
         [SerializeField] private Utils.TileManager tileScroller;
         [SerializeField] private AnimalSO animalList;
-        [SerializeField] private float lowerSpawnTime = 0.5f;
-        [SerializeField] private float upperSpawnTime = 5f;
-        [SerializeField] private float lowerSpawnDist = 5f;
+        [SerializeField] private float lowerSpawnTime = 3f;
+        [SerializeField] private float upperSpawnTime = 6f;
+        [SerializeField] private float lowerSpawnDist = 2f;
         [SerializeField] private float upperSpawnDist = 5f;
 
         // read-only properties

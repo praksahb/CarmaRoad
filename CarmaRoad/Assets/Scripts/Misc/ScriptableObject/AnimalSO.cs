@@ -19,5 +19,6 @@ namespace CarmaRoad.Animal
         public float walkSpeed;
         public float runSpeed;
         public float freezeTime;
+        public float runSpeedModifier;
     }
 }

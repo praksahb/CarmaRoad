@@ -3,30 +3,25 @@ namespace CarmaRoad.Animal
 {
     public class FreezeState : IBaseState
     {
-        private float freezeTimer;
-
         public void OnEnterState(AnimalStateManager animal)
         {
             animal.AnimalController.PlayAnimation(Enum.AnimalAnimationClip.Idle);
-            freezeTimer = 2f;
+            animal.AnimalController.SetModelBoolValues(true, false, false);
         }
 
         public void OnFixedUpdate(AnimalStateManager animal)
         {
-            if (freezeTimer <= 0f)
-            {
-                freezeTimer = 0f;
-                animal.ChangeState(animal.walkState);
-            }
-            else
-            {
-                freezeTimer -= Time.fixedDeltaTime;
-            }
+
         }
 
-        public void OnTriggerEnter2D(AnimalStateManager animal, Collider2D collision)
+        public void OnTriggerEnter2D(AnimalStateManager animal, Collider2D collider2D)
         {
+            // player is already inside trigger collider of animal if in this state.
+        }
 
+        public void OnTriggerExit2D(AnimalStateManager animal, Collider2D collider2D)
+        {
+            animal.ChangeState(animal.walkState);
         }
     }
 }
