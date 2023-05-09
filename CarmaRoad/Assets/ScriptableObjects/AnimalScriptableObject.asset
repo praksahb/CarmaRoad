@@ -15,7 +15,7 @@ MonoBehaviour:
   allAnimals:
   - animalPrefab: {fileID: 69756520237740291, guid: 9d985f3b8e1bc974695fa4df159a6e2e, type: 3}
     AnimalName: Black Cat
-    animalType: 1
+    animalType: 2
     walkSpeed: 1.5
     runSpeed: 4
     freezeTime: 0
