@@ -26,22 +26,28 @@ namespace CarmaRoad.Animal
             InitializeAnimationClipDictionary();
         }
 
+        public void SetModelBoolValues(bool isIdle, bool isRunning, bool isFastRunning)
+        {
+            AnimalModel.IsIdle = isIdle;
+            AnimalModel.IsRunning = isRunning;
+            AnimalModel.IsFastRunning = isFastRunning;
+        }
+
         // main move function for 2d animal
         // is it better to move animal which is a kinematic rigidbody with the movePosition in every fixed update or by setting velocity value once in the start function
-        public void MoveAnimal(bool isRunning = false)
+        public void MoveAnimal()
         {
-            AnimalModel.IsIdle = false;
-            AnimalModel.IsRunning = isRunning;
-
+            // create initial velocity from speed and direction
             Vector2 velocity = new Vector2(AnimalModel.CurrentSpeed, 0) * AnimalView.transform.right;
-
+            // add more if needed
+            velocity = AnimalModel.IsFastRunning ? velocity * AnimalModel.RunSpeedModifier : velocity;
+            // get distance and increment it using MovePosition function
             Vector2 deltaMove = AnimalView.RBody2D.position + velocity * Time.fixedDeltaTime;
             AnimalView.RBody2D.MovePosition(deltaMove);
         }
         // stops moving 2d animal
         public void StopMoving()
         {
-            AnimalModel.IsIdle = true;
             AnimalView.RBody2D.velocity = Vector2.zero;
         }
         //change direction
@@ -55,6 +61,7 @@ namespace CarmaRoad.Animal
         public void PlayAnimation(Enum.AnimalAnimationClip clip)
         {
             int hashVal;
+
             if (animationClips.TryGetValue(clip, out hashVal))
             {
                 AnimalView.animatorController.Play(hashVal);
@@ -66,20 +73,15 @@ namespace CarmaRoad.Animal
         }
 
         // Private Level -
+
         // dictionary for storing hash values of animationClips string names
         private Dictionary<Enum.AnimalAnimationClip, int> animationClips;
 
         // changes transform.right value of animal to point in left or right direction of the road
         private Quaternion SetFacingDirection(Enum.AnimalSpawnPosition animalSpawnPos)
         {
-            if (animalSpawnPos == Enum.AnimalSpawnPosition.Right)
-            {
-                return Quaternion.Euler(0, 180, 0);
-            }
-            else
-            {
-                return Quaternion.Euler(0, 0, 0);
-            }
+            Quaternion facingDirection = animalSpawnPos == Enum.AnimalSpawnPosition.Left ? Quaternion.Euler(0, 0, 0) : Quaternion.Euler(0, 180, 0);
+            return facingDirection;
         }
         // initialize hash values for animation clip names
         private void InitializeAnimationClipDictionary()

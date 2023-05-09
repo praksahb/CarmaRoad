@@ -19,3 +19,4 @@ MonoBehaviour:
     walkSpeed: 1.5
     runSpeed: 4
     freezeTime: 0
+    runSpeedModifier: 1.75
