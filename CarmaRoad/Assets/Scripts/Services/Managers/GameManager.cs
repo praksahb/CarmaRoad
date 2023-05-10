@@ -61,18 +61,6 @@ namespace CarmaRoad
             animalSpawner.SwitchGameOverFlag(false);
         }
 
-        private void RestartGame()
-        {
-            // re-enable controller
-            playerServiceInstance.CarController.CarMoveInput.EnableController();
-            // re- assign camera controller
-            playerServiceInstance.AssignPlayerTransform?.Invoke(playerServiceInstance.CarController.CarView.transform);
-            // lights off again
-            globalLight.color = nightLightColor;
-            // switch game over flag in animal spawner
-            animalSpawner.SwitchGameOverFlag(false);
-        }
-
         private void GameIsOver()
         {
             animalSpawner.SwitchGameOverFlag(true);
