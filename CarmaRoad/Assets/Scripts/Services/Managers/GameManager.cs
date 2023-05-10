@@ -32,6 +32,11 @@ namespace CarmaRoad
             UIManager.Instance.RestartGameCall -= RestartGame;
         }
 
+        private void SelectVehicle()
+        {
+
+        }
+
         private void StartGame()
         {
             // create player
