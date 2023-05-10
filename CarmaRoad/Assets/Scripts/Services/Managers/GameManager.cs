@@ -20,27 +20,77 @@ namespace CarmaRoad
 
         private void Start()
         {
-            UIManager.Instance.StartGameCall += StartGame;
+            UIManager.Instance.OnDifficultySelectedStartGame += StartGame;
             UIManager.Instance.GameOverCall += GameIsOver;
             UIManager.Instance.RestartGameCall += RestartGame;
+            UIManager.Instance.SelectVehicleLeftRight += SelectVehicle;
+            UIManager.Instance.SelectDifficultyLevel += SelectDifficulty;
+            playerServiceInstance.CreateVehiclePublic(0);
         }
 
         private void OnDisable()
         {
-            UIManager.Instance.StartGameCall -= StartGame;
+            UIManager.Instance.OnDifficultySelectedStartGame -= StartGame;
             UIManager.Instance.GameOverCall -= GameIsOver;
             UIManager.Instance.RestartGameCall -= RestartGame;
+            UIManager.Instance.SelectVehicleLeftRight -= SelectVehicle;
+            UIManager.Instance.SelectDifficultyLevel -= SelectDifficulty;
         }
 
-        private void SelectVehicle()
+        private void SelectVehicle(int indexChange)
         {
+            // create player
+            playerServiceInstance.DestroyVehicle();
+            playerServiceInstance.CreateVehiclePublic(indexChange);
+        }
 
+        private void SelectDifficulty(Enum.LevelDifficulty levelDifficulty)
+        {
+            float minSpawnTime = 0, maxSpawnTime = 0, minSpawnDist = 0, maxSpawnDist = 0;
+
+            switch (levelDifficulty)
+            {
+                case Enum.LevelDifficulty.Easy:
+                    {
+                        minSpawnTime = 3.5f;
+                        maxSpawnTime = 6.5f;
+                        minSpawnDist = 5f;
+                        maxSpawnDist = 10f;
+                        break;
+                    }
+                case Enum.LevelDifficulty.Medium:
+                    {
+                        minSpawnTime = 2.5f;
+                        maxSpawnTime = 5f;
+                        minSpawnDist = 2f;
+                        maxSpawnDist = 5f;
+                        break;
+                    }
+                case Enum.LevelDifficulty.Hard:
+                    {
+                        minSpawnTime = 1.5f;
+                        maxSpawnTime = 4f;
+                        minSpawnDist = 1f;
+                        maxSpawnDist = 3f;
+                        break;
+                    }
+                case Enum.LevelDifficulty.Impossible:
+                    {
+                        minSpawnTime = 0f;
+                        maxSpawnTime = 0.5f;
+                        minSpawnDist = 0f;
+                        maxSpawnDist = 1.5f;
+                        break;
+                    }
+            }
+            Debug.Log("minSpwnTime: " + minSpawnTime + "\nmaxSpawnTime: " + maxSpawnTime + "\nMin Spawn dist: " + minSpawnDist + "\nmaxSpawnDist: " + maxSpawnDist);
+            animalSpawner.SetSpawnValues(minSpawnTime, maxSpawnTime, minSpawnDist, maxSpawnDist);
+
+            UIManager.Instance.OnDifficultySelectedStartGame?.Invoke();
         }
 
         private void StartGame()
         {
-            // create player
-            playerServiceInstance.CreateVehiclePublic();
             // create tiles - infy scrolling
             tilesSpawn.GenerateTilePrefab();
 

@@ -39,6 +39,7 @@ namespace CarmaRoad.Player
             playerControls = new PlayerInputActions();
             playerControls.Vehicle.SetCallbacks(this);
             playerControls.Vehicle.Enable();
+            HeadlightSwitch = true;
             emergencyLightSwitch = true;
         }
 

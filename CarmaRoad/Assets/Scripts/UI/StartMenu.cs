@@ -5,7 +5,7 @@ namespace CarmaRoad.UI
 {
     public class StartMenu : MonoBehaviour
     {
-        [SerializeField] private Button playGameButton;
+        [SerializeField] private Button playButton;
         [SerializeField] private Button switchOverlayKeys;
         [SerializeField] private TMPro.TextMeshProUGUI switchOnOff;
 
@@ -13,15 +13,14 @@ namespace CarmaRoad.UI
 
         private void OnEnable()
         {
-            playGameButton.onClick.AddListener(StartGame);
+            playButton.onClick.AddListener(StartGame);
             switchOverlayKeys.onClick.AddListener(SwitchOverlayKeys);
-            Debug.Log("Sw: " + switchOnOff.text);
         }
 
         private void StartGame()
         {
             // call to start the game.
-            UIManager.Instance.StartGameCall?.Invoke();
+            UIManager.Instance.PlayBtnCall?.Invoke();
         }
 
         private void SwitchOverlayKeys()
