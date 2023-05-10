@@ -22,5 +22,16 @@ namespace CarmaRoad.Animal
         {
             Destroy(this.gameObject, 5f);
         }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (AnimalController.AnimalStateManager.CurrentState is DeadState) return;
+#pragma warning disable IDE0001
+            if (collision.gameObject.TryGetComponent<Player.CarView>(out Player.CarView vehicle))
+#pragma warning restore IDE0001
+            {
+                AnimalController.OnVehicleCollision(vehicle);
+            }
+        }
     }
 }

@@ -23,13 +23,18 @@ namespace CarmaRoad.Enum
     // Create more accordingly, used in AnimalSO
     public enum AllAnimals
     {
-        BlackCat,
+        Cat,
+        Horse,
+        OldMan,
+        Hyena,
+        Dog
     }
 
     // Car/ vehicle types 
     public enum CarType
     {
         Ambulance,
+        Taxi,
     }
 
     // spawn position left or right
