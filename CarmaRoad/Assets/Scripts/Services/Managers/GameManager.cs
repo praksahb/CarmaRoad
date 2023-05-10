@@ -22,6 +22,11 @@ namespace CarmaRoad
             UIManager.Instance.GameOverCall -= GameIsOver;
         }
 
+        private void SelectVehicle()
+        {
+
+        }
+
         private void StartGame()
         {
             // create player
@@ -31,6 +36,24 @@ namespace CarmaRoad
 
             // start animal Spawner
             animalSpawner.ChangeState(animalSpawner.waitingState);
+<<<<<<< Updated upstream
+=======
+            // switch flag in animal Spawner - for spawning around player
+            animalSpawner.SwitchGameOverFlag(false);
+        }
+
+
+        private void RestartGame()
+        {
+            // re-enable controller
+            playerServiceInstance.CarController.CarMoveInput.EnableController();
+            // re- assign camera controller
+            playerServiceInstance.AssignPlayerTransform?.Invoke(playerServiceInstance.CarController.CarView.transform);
+            // lights off again
+            globalLight.color = nightLightColor;
+            // switch game over flag in animal spawner
+            animalSpawner.SwitchGameOverFlag(false);
+>>>>>>> Stashed changes
         }
 
 
