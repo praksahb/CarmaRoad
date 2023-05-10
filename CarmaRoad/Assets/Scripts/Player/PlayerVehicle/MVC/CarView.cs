@@ -59,22 +59,32 @@ namespace CarmaRoad.Player
             steeringInput = inputVector.x;
             accelerationInput = inputVector.y;
         }
-        private void SwitchHeadLights()
+        private void SwitchHeadLights(bool isLightsOn)
         {
-            Debug.Log("chek1");
-            headlightLeft.enabled = !headlightLeft.enabled;
-            headlightRight.enabled = !headlightRight.enabled;
-        }
-        private void SwitchEmergencyLights(bool isLightOn)
-        {
-            if (isLightOn)
+            if (isLightsOn)
             {
-                carAnimController.Play(eLightOn);
+                headlightLeft.intensity = 1f;
+                headlightRight.intensity = 1f;
             }
             else
             {
-                carAnimController.Play(eLightOff);
-                carAnimController.Play(eLightOff);
+                headlightLeft.intensity = 0f;
+                headlightRight.intensity = 0f;
+            }
+        }
+        private void SwitchEmergencyLights(bool isLightOn)
+        {
+            if (CarController.CarModel.CarType == Enum.CarType.Ambulance)
+            {
+                if (isLightOn)
+                {
+                    carAnimController.Play(eLightOn);
+                }
+                else
+                {
+                    carAnimController.Play(eLightOff);
+                    carAnimController.Play(eLightOff);
+                }
             }
         }
     }
