@@ -3,9 +3,14 @@ namespace CarmaRoad.Animal
 {
     public class WalkState : IBaseState
     {
+        private Enum.AnimalType animalType;
+
         public void OnEnterState(AnimalStateManager animal)
         {
             animal.AnimalController.PlayAnimation(Enum.AnimalAnimationClip.Walk);
+            animal.AnimalController.SetModelBoolValues(false, false, false);
+
+            animalType = animal.AnimalController.AnimalModel.AnimalType;
         }
 
         public void OnFixedUpdate(AnimalStateManager animal)
@@ -13,22 +18,40 @@ namespace CarmaRoad.Animal
             animal.AnimalController.MoveAnimal();
         }
 
-        public void OnTriggerEnter2D(AnimalStateManager animal, Collider2D collision)
+        public void OnTriggerEnter2D(AnimalStateManager animal, Collider2D collider2D)
         {
-            if (collision.gameObject.TryGetComponent<Player.CarView>(out _))
+            if (collider2D.gameObject.TryGetComponent<Player.CarView>(out _))
             {
-                if (animal.AnimalController.AnimalModel.AnimalType == Enum.AnimalType.Large)
-                {
-                    animal.ChangeState(animal.freezeState);
-                }
+                PerformTypeSpecificAction(animal);
+            }
+        }
 
-                if (animal.AnimalController.AnimalModel.AnimalType == Enum.AnimalType.Human)
+        public void OnTriggerExit2D(AnimalStateManager animal, Collider2D collider2D)
+        {
+            if (collider2D.gameObject.TryGetComponent<Player.CarView>(out _))
+            {
+                if (animalType == Enum.AnimalType.Large)
                 {
-                    // turn back?
-                    // needs custom logic to check to see if they can cross road or not
-                    // or just turn them back
                     animal.AnimalController.ChangeDirection();
                 }
+            }
+        }
+
+        private void PerformTypeSpecificAction(AnimalStateManager animal)
+        {
+            if (animalType == Enum.AnimalType.Human)
+            {
+                animal.ChangeState(animal.freezeState);
+            }
+
+            if (animalType == Enum.AnimalType.Large)
+            {
+                animal.AnimalController.ChangeDirection(); // or freeze and stand still
+            }
+
+            if (animalType == Enum.AnimalType.Medium)
+            {
+                animal.ChangeState(animal.runState);
             }
         }
     }

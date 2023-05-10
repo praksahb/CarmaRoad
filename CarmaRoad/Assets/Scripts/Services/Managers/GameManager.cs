@@ -36,10 +36,6 @@ namespace CarmaRoad
 
             // start animal Spawner
             animalSpawner.ChangeState(animalSpawner.waitingState);
-<<<<<<< Updated upstream
-=======
-            // switch flag in animal Spawner - for spawning around player
-            animalSpawner.SwitchGameOverFlag(false);
         }
 
 
@@ -53,9 +49,7 @@ namespace CarmaRoad
             globalLight.color = nightLightColor;
             // switch game over flag in animal spawner
             animalSpawner.SwitchGameOverFlag(false);
->>>>>>> Stashed changes
         }
-
 
         private void GameIsOver()
         {

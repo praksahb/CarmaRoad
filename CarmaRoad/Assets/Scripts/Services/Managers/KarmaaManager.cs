@@ -20,6 +20,16 @@ namespace CarmaRoad
             currentKarma = maxKarma;
         }
 
+        private void OnEnable()
+        {
+            UIManager.Instance.RestartGameCall += RestartGameCalled;
+        }
+
+        private void OnDisable()
+        {
+            UIManager.Instance.RestartGameCall -= RestartGameCalled;
+        }
+
         public void ReduceKarma()
         {
             currentKarma -= karmaModifier;
@@ -41,6 +51,13 @@ namespace CarmaRoad
         private void EndGame()
         {
             UIManager.Instance.GameOverCall?.Invoke();
+        }
+
+        // restart game - reset currentKarma
+        private void RestartGameCalled()
+        {
+            currentKarma = maxKarma;
+            OnKarmaChanged?.Invoke(currentKarma);
         }
     }
 }

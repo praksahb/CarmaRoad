@@ -16,6 +16,12 @@ MonoBehaviour:
   - vehiclePrefab: {fileID: 539782816619211486, guid: ebbe7fea2798c8147b9a3907a4f5105e, type: 3}
     carType: 0
     accelerationFactor: 15
-    turnFactor: 3
+    turnFactor: 3.5
+    driftFactor: 0.6
+    maxSpeed: 20
+  - vehiclePrefab: {fileID: 3489797555498694248, guid: 167a44de861c9634bbad16d0206e7bee, type: 3}
+    carType: 1
+    accelerationFactor: 15
+    turnFactor: 5
     driftFactor: 0.6
     maxSpeed: 20

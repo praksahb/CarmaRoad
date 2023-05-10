@@ -3,6 +3,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace CarmaRoad.Player
 {
+    [RequireComponent(typeof(Rigidbody2D), typeof(Light2D))]
     public class CarView : MonoBehaviour
     {
         public Rigidbody2D Rb2d { get; private set; }
@@ -52,18 +53,17 @@ namespace CarmaRoad.Player
 
         }
 
+        // shift these funcs to car controller.
         public void SetInputVector(Vector2 inputVector)
         {
             steeringInput = inputVector.x;
             accelerationInput = inputVector.y;
         }
-
         private void SwitchHeadLights()
         {
             headlightLeft.enabled = !headlightLeft.enabled;
             headlightRight.enabled = !headlightRight.enabled;
         }
-
         private void SwitchEmergencyLights(bool isLightOn)
         {
             if (isLightOn)

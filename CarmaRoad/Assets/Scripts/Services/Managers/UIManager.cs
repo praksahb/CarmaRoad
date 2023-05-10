@@ -10,10 +10,6 @@ namespace CarmaRoad
         [SerializeField] private UI.StartMenu startMenuPanel;
         [SerializeField] private RectTransform overlayButtons;
 
-<<<<<<< Updated upstream
-        public Action GameOverCall;
-        public Action StartGameCall;
-=======
         private bool overlayKeySwitch;
 
         // Calling from here, as UIManager is singleton and GameManager is not a singleton
@@ -21,26 +17,20 @@ namespace CarmaRoad
         public Action StartGameCall;
         public Action RestartGameCall;
         public Action OverlayBtnSwitch;
->>>>>>> Stashed changes
 
         private void OnEnable()
         {
             GameOverCall += EnableGameOverPanel;
             StartGameCall += DisableStartMenu;
-<<<<<<< Updated upstream
-=======
             RestartGameCall += DisableGameOverPanel;
             OverlayBtnSwitch += SwitchOverlayKeys;
 
             overlayKeySwitch = false;
->>>>>>> Stashed changes
         }
         private void OnDisable()
         {
             GameOverCall -= EnableGameOverPanel;
             StartGameCall -= DisableStartMenu;
-<<<<<<< Updated upstream
-=======
             RestartGameCall -= DisableGameOverPanel;
             OverlayBtnSwitch -= SwitchOverlayKeys;
         }
@@ -48,7 +38,6 @@ namespace CarmaRoad
         private void DisableGameObject(GameObject gameObject, bool enableOrDisable)
         {
             gameObject.SetActive(enableOrDisable);
->>>>>>> Stashed changes
         }
 
         private void DisableStartMenu()

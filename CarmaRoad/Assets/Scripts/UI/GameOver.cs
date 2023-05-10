@@ -34,6 +34,7 @@ namespace CarmaRoad.UI
             // Restart the scene or something 
 
             // invoke an event or something.
+            UIManager.Instance.RestartGameCall?.Invoke();
         }
     }
 }

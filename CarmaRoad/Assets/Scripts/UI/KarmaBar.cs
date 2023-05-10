@@ -6,7 +6,7 @@ namespace CarmaRoad.UI
     {
         [SerializeField] private Image fillImage;
 
-        private float maxKarma;
+        private int maxKarma;
         private float fillValue;
         private Slider slider;
         private Color prevColor;
@@ -30,14 +30,14 @@ namespace CarmaRoad.UI
 
         private void ChangeSliderFillValue(int newKarma)
         {
-            fillValue = (float)newKarma / maxKarma;
+            fillValue = (float)newKarma / (float)maxKarma;
             slider.value = fillValue;
             if (slider.value <= slider.minValue)
             {
                 fillImage.enabled = false;
             }
 
-            if (slider.value > slider.maxValue && !fillImage.enabled)
+            if (slider.value > slider.minValue && !fillImage.enabled)
             {
                 fillImage.enabled = true;
             }
