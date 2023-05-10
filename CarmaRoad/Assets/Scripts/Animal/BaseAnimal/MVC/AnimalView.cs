@@ -20,7 +20,7 @@ namespace CarmaRoad.Animal
 
         private void Start()
         {
-            Destroy(this.gameObject, 5f);
+            Destroy(this.gameObject, 8f);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

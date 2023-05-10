@@ -23,7 +23,7 @@ MonoBehaviour:
   - animalPrefab: {fileID: 3354026934866482153, guid: 592aa387279aa184fae8fea74be42972, type: 3}
     AnimalName: 4
     animalType: 2
-    walkSpeed: 1.5
+    walkSpeed: 2
     runSpeed: 4
     freezeTime: 0
     runSpeedModifier: 1.75
@@ -31,19 +31,19 @@ MonoBehaviour:
     AnimalName: 1
     animalType: 2
     walkSpeed: 2
-    runSpeed: 4
+    runSpeed: 5
     freezeTime: 0
     runSpeedModifier: 1.75
   - animalPrefab: {fileID: 903928807323346220, guid: 5adf51fe7f9c4d14bb395758408f79f7, type: 3}
     AnimalName: 3
     animalType: 2
     walkSpeed: 2
-    runSpeed: 4
+    runSpeed: 5
     freezeTime: 0
     runSpeedModifier: 1.75
   - animalPrefab: {fileID: 7278005580393401990, guid: 6f225df55e55095488408b061d9f8aa8, type: 3}
     AnimalName: 2
-    animalType: 3
+    animalType: 4
     walkSpeed: 1.5
     runSpeed: 3
     freezeTime: 0

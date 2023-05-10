@@ -3,10 +3,14 @@ namespace CarmaRoad.Animal
 {
     public class WalkState : IBaseState
     {
+        private Enum.AnimalType animalType;
+
         public void OnEnterState(AnimalStateManager animal)
         {
             animal.AnimalController.PlayAnimation(Enum.AnimalAnimationClip.Walk);
             animal.AnimalController.SetModelBoolValues(false, false, false);
+
+            animalType = animal.AnimalController.AnimalModel.AnimalType;
         }
 
         public void OnFixedUpdate(AnimalStateManager animal)
@@ -26,7 +30,7 @@ namespace CarmaRoad.Animal
         {
             if (collider2D.gameObject.TryGetComponent<Player.CarView>(out _))
             {
-                if (animal.AnimalController.AnimalModel.AnimalType == Enum.AnimalType.Large)
+                if (animalType == Enum.AnimalType.Large)
                 {
                     animal.AnimalController.ChangeDirection();
                 }
@@ -35,14 +39,19 @@ namespace CarmaRoad.Animal
 
         private void PerformTypeSpecificAction(AnimalStateManager animal)
         {
-            if (animal.AnimalController.AnimalModel.AnimalType == Enum.AnimalType.Human)
+            if (animalType == Enum.AnimalType.Human)
             {
                 animal.ChangeState(animal.freezeState);
             }
 
-            if (animal.AnimalController.AnimalModel.AnimalType == Enum.AnimalType.Large)
+            if (animalType == Enum.AnimalType.Large)
             {
-                animal.AnimalController.ChangeDirection();
+                animal.AnimalController.ChangeDirection(); // or freeze and stand still
+            }
+
+            if (animalType == Enum.AnimalType.Medium)
+            {
+                animal.ChangeState(animal.runState);
             }
         }
     }

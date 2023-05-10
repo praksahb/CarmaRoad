@@ -145,7 +145,10 @@ namespace CarmaRoad.Animal
             switch (AnimalModel.AnimalType)
             {
                 case Enum.AnimalType.Small:
-                    velocityModifier = 0.75f;
+                    velocityModifier = 0.9f;
+                    break;
+                case Enum.AnimalType.Medium:
+                    velocityModifier = 0.6f;
                     break;
                 case Enum.AnimalType.Large:
                     velocityModifier = 0.5f;

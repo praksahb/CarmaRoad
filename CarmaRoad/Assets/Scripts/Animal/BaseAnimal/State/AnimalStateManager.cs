@@ -12,8 +12,6 @@ namespace CarmaRoad.Animal
         public RunState runState = new RunState();
         public DeadState deadState = new DeadState();
 
-        private float velocityModifier;
-
         private void Start()
         {
             // AnimalController reference does not get assigned when awake is called so currently calling in start.
@@ -28,7 +26,7 @@ namespace CarmaRoad.Animal
             {
                 CurrentState = runState;
             }
-            //else if (AnimalController.AnimalModel.AnimalType == AnimalType.Large || AnimalType.Human
+            //for everything else start with walk state
             else
             {
                 CurrentState = walkState;
@@ -55,29 +53,6 @@ namespace CarmaRoad.Animal
         private void OnTriggerExit2D(Collider2D collider2D)
         {
             CurrentState.OnTriggerExit2D(this, collider2D);
-        }
-
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (CurrentState is DeadState) return;
-#pragma warning disable IDE0001
-            if (collision.gameObject.TryGetComponent<Player.CarView>(out Player.CarView vehicle))
-#pragma warning restore IDE0001
-            {
-                // re adjust vehicle/ car velocity
-                float vehicleSpeed = vehicle.PrevVelocityMagnitude;
-                float speedModifier = vehicleSpeed / vehicle.CarController.CarModel.MaxSpeed;
-                vehicle.Rb2d.velocity = vehicleSpeed * speedModifier * velocityModifier * vehicle.transform.up;
-
-                // stop rb on animal
-                AnimalController.AnimalView.RBody2D.simulated = false;
-
-                // vehicle has hit the animal
-                KarmaaManager.Instance.ReduceKarma();
-
-                // send animal to death state
-                ChangeState(deadState);
-            }
         }
     }
 }
