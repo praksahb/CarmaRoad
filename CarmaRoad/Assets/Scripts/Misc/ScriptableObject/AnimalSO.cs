@@ -14,7 +14,7 @@ namespace CarmaRoad.Animal
     public class BaseAnimalObject
     {
         public AnimalView animalPrefab;
-        public string AnimalName;
+        public Enum.AllAnimals AnimalName;
         public Enum.AnimalType animalType;
         public float walkSpeed;
         public float runSpeed;

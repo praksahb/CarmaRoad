@@ -16,30 +16,9 @@ namespace CarmaRoad.Animal
 
         private void Start()
         {
-            // Debug.Log("AC: " + AnimalController);
             // AnimalController reference does not get assigned when awake is called so currently calling in start.
             // assigning ref in ctor of animal controller
             SpawnState();
-            SetVelocityModifier();
-        }
-
-        private void SetVelocityModifier()
-        {
-            switch (AnimalController.AnimalModel.AnimalType)
-            {
-                case Enum.AnimalType.Small:
-                    velocityModifier = 0.75f;
-                    break;
-                case Enum.AnimalType.Large:
-                    velocityModifier = 0.5f;
-                    break;
-                case Enum.AnimalType.Human:
-                    velocityModifier = 0.5f;
-                    break;
-                default:
-                    velocityModifier = 0.5f;
-                    break;
-            }
         }
 
         // currently using only two initial state values. human can have a different state. where they check the road before crossing depending on vehicle distance.
@@ -49,7 +28,7 @@ namespace CarmaRoad.Animal
             {
                 CurrentState = runState;
             }
-            //else if (AnimalController.AnimalModel.AnimalType == AnimalType.Large)
+            //else if (AnimalController.AnimalModel.AnimalType == AnimalType.Large || AnimalType.Human
             else
             {
                 CurrentState = walkState;

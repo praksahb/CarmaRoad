@@ -33,7 +33,7 @@ namespace CarmaRoad
 
         private void CreateVehicle()
         {
-            BaseVehicle baseVehicle = vehicleList.allVehicles[(int)Enum.CarType.Ambulance];
+            BaseVehicle baseVehicle = vehicleList.allVehicles[(int)Enum.CarType.Taxi];
 
             CarModel carModel = new CarModel(baseVehicle);
             CarController = new CarController(carModel, baseVehicle.vehiclePrefab, spawnPoint);

@@ -13,10 +13,38 @@ MonoBehaviour:
   m_Name: AnimalScriptableObject
   m_EditorClassIdentifier: 
   allAnimals:
-  - animalPrefab: {fileID: 69756520237740291, guid: 9d985f3b8e1bc974695fa4df159a6e2e, type: 3}
-    AnimalName: Black Cat
+  - animalPrefab: {fileID: -8183014150650272459, guid: 09c86b8a40164234eb14d5877cbbbb1f, type: 3}
+    AnimalName: 0
+    animalType: 1
+    walkSpeed: 1.5
+    runSpeed: 4
+    freezeTime: 0
+    runSpeedModifier: 1.75
+  - animalPrefab: {fileID: 3354026934866482153, guid: 592aa387279aa184fae8fea74be42972, type: 3}
+    AnimalName: 4
     animalType: 2
     walkSpeed: 1.5
     runSpeed: 4
+    freezeTime: 0
+    runSpeedModifier: 1.75
+  - animalPrefab: {fileID: 238211840385600886, guid: f772a0bf1383ec446b2437fb30b9e78c, type: 3}
+    AnimalName: 1
+    animalType: 2
+    walkSpeed: 2
+    runSpeed: 4
+    freezeTime: 0
+    runSpeedModifier: 1.75
+  - animalPrefab: {fileID: 903928807323346220, guid: 5adf51fe7f9c4d14bb395758408f79f7, type: 3}
+    AnimalName: 3
+    animalType: 2
+    walkSpeed: 2
+    runSpeed: 4
+    freezeTime: 0
+    runSpeedModifier: 1.75
+  - animalPrefab: {fileID: 7278005580393401990, guid: 6f225df55e55095488408b061d9f8aa8, type: 3}
+    AnimalName: 2
+    animalType: 3
+    walkSpeed: 1.5
+    runSpeed: 3
     freezeTime: 0
     runSpeedModifier: 1.75

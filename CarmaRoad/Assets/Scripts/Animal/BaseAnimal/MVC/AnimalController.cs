@@ -4,12 +4,17 @@ namespace CarmaRoad.Animal
 {
     public class AnimalController
     {
-        // PUBLIC LEVEL -
         // read-only properties
         public AnimalModel AnimalModel { get; }
         public AnimalView AnimalView { get; }
         //  might have to provide ASM with write access if changing states from animalView or here 
         public AnimalStateManager AnimalStateManager { get; }
+
+        // dictionary for storing hash values of animationClips string names
+        private Dictionary<Enum.AnimalAnimationClip, int> animationClips;
+        public float velocityModifier;
+
+        // PUBLIC LEVEL -
         // Ctor - handles individual animal - used in CreateAnimalService
         public AnimalController(AnimalModel animalModel, AnimalView animalView, Vector2 spawnPoint, Enum.AnimalSpawnPosition animalSpawnPos)
         {
@@ -24,6 +29,7 @@ namespace CarmaRoad.Animal
             AnimalStateManager.AnimalController = this;
 
             InitializeAnimationClipDictionary();
+            SetVelocityModifier();
         }
 
         public void SetModelBoolValues(bool isIdle, bool isRunning, bool isFastRunning)
@@ -33,8 +39,24 @@ namespace CarmaRoad.Animal
             AnimalModel.IsFastRunning = isFastRunning;
         }
 
-        // main move function for 2d animal
-        // is it better to move animal which is a kinematic rigidbody with the movePosition in every fixed update or by setting velocity value once in the start function
+        public void OnVehicleCollision(Player.CarView vehicle)
+        {
+            // re adjust vehicle/ car velocity
+            float vehicleSpeed = vehicle.PrevVelocityMagnitude;
+            float speedModifier = vehicleSpeed / vehicle.CarController.CarModel.MaxSpeed;
+            vehicle.Rb2d.velocity = vehicleSpeed * speedModifier * velocityModifier * vehicle.transform.up;
+
+            // stop rb on animal
+            AnimalView.RBody2D.simulated = false;
+
+            // vehicle has hit the animal
+            KarmaaManager.Instance.ReduceKarma();
+
+            // send animal to death state
+            AnimalStateManager.ChangeState(AnimalStateManager.deadState);
+        }
+
+        // move function for animal
         public void MoveAnimal()
         {
             // create initial velocity from speed and direction
@@ -45,7 +67,7 @@ namespace CarmaRoad.Animal
             Vector2 deltaMove = AnimalView.RBody2D.position + velocity * Time.fixedDeltaTime;
             AnimalView.RBody2D.MovePosition(deltaMove);
         }
-        // stops moving 2d animal
+        // stops moving animal
         public void StopMoving()
         {
             AnimalView.RBody2D.velocity = Vector2.zero;
@@ -54,7 +76,7 @@ namespace CarmaRoad.Animal
         public void ChangeDirection()
         {
             Quaternion newRotation = AnimalView.transform.rotation * Quaternion.Euler(0, 180, 0);
-            AnimalView.transform.rotation = Quaternion.Slerp(AnimalView.transform.rotation, newRotation, 0.8f);
+            AnimalView.transform.rotation = Quaternion.Slerp(AnimalView.transform.rotation, newRotation, 1f);
         }
 
         // plays animation according to  state
@@ -73,9 +95,6 @@ namespace CarmaRoad.Animal
         }
 
         // Private Level -
-
-        // dictionary for storing hash values of animationClips string names
-        private Dictionary<Enum.AnimalAnimationClip, int> animationClips;
 
         // changes transform.right value of animal to point in left or right direction of the road
         private Quaternion SetFacingDirection(Enum.AnimalSpawnPosition animalSpawnPos)
@@ -118,6 +137,26 @@ namespace CarmaRoad.Animal
                     break;
             }
             return clipName;
+        }
+
+        // Velocity used in collision between vehicle and animal
+        private void SetVelocityModifier()
+        {
+            switch (AnimalModel.AnimalType)
+            {
+                case Enum.AnimalType.Small:
+                    velocityModifier = 0.75f;
+                    break;
+                case Enum.AnimalType.Large:
+                    velocityModifier = 0.5f;
+                    break;
+                case Enum.AnimalType.Human:
+                    velocityModifier = 0.5f;
+                    break;
+                default:
+                    velocityModifier = 0.5f;
+                    break;
+            }
         }
     }
 }
