@@ -85,6 +85,14 @@ namespace CarmaRoad.Animal.Spawner
             CreateAnimalService.Instance.CreateAnimal(baseAnimal, spawnPos, currentSpawningDirection);
         }
 
+        public void SetSpawnValues(float minSpawnTime, float maxSpawnTime, float minSpawnDist, float maxSpawnDist)
+        {
+            lowerSpawnTime = minSpawnTime;
+            upperSpawnTime = maxSpawnTime;
+            lowerSpawnDist = minSpawnDist;
+            upperSpawnDist = maxSpawnDist;
+        }
+
         public void SwitchGameOverFlag(bool IsGameOver)
         {
             if (IsGameOver)

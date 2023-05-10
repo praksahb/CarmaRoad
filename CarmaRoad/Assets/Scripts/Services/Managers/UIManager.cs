@@ -8,64 +8,86 @@ namespace CarmaRoad
         [SerializeField] private UI.KarmaBar karmaBar;
         [SerializeField] private UI.GameOver gameoverPanel;
         [SerializeField] private UI.StartMenu startMenuPanel;
+        [SerializeField] private UI.SelectionPanel selectionPanel;
         [SerializeField] private RectTransform overlayButtons;
 
         private bool overlayKeySwitch;
 
         // Calling from here, as UIManager is singleton and GameManager is not a singleton
-        public Action GameOverCall;
-        public Action StartGameCall;
-        public Action RestartGameCall;
         public Action OverlayBtnSwitch;
+        public Action RestartGameCall;
+        public Action GameOverCall;
+
+        public Action PlayBtnCall;
+        public Action<int> SelectVehicleLeftRight;
+        public Action OnVehicleSelection;
+
+        public Action<Enum.LevelDifficulty> SelectDifficultyLevel;
+        public Action OnDifficultySelectedStartGame;
 
         private void OnEnable()
         {
             GameOverCall += EnableGameOverPanel;
-            StartGameCall += DisableStartMenu;
+            PlayBtnCall += DisableStartMenu;
             RestartGameCall += DisableGameOverPanel;
             OverlayBtnSwitch += SwitchOverlayKeys;
-
-            overlayKeySwitch = false;
+            OnDifficultySelectedStartGame += DisableSelectionPanel;
         }
+
+        private void Start()
+        {
+            overlayKeySwitch = false;
+            EnableDisableGameObject(overlayButtons.gameObject, false);
+            EnableDisableGameObject(karmaBar.gameObject, false);
+            EnableDisableGameObject(startMenuPanel.gameObject, true);
+        }
+
         private void OnDisable()
         {
             GameOverCall -= EnableGameOverPanel;
-            StartGameCall -= DisableStartMenu;
+            PlayBtnCall -= DisableStartMenu;
             RestartGameCall -= DisableGameOverPanel;
             OverlayBtnSwitch -= SwitchOverlayKeys;
+            OnDifficultySelectedStartGame -= DisableSelectionPanel;
         }
 
-        private void DisableGameObject(GameObject gameObject, bool enableOrDisable)
+        private void EnableDisableGameObject(GameObject gameObject, bool enableOrDisable)
         {
             gameObject.SetActive(enableOrDisable);
         }
 
         private void DisableStartMenu()
         {
-            DisableGameObject(startMenuPanel.gameObject, false);
-            DisableGameObject(karmaBar.gameObject, true);
+            EnableDisableGameObject(startMenuPanel.gameObject, false);
+            EnableDisableGameObject(karmaBar.gameObject, true);
+            EnableDisableGameObject(selectionPanel.gameObject, true);
         }
 
         private void EnableStartMenu()
         {
-            DisableGameObject(startMenuPanel.gameObject, true);
-            DisableGameObject(karmaBar.gameObject, false);
+            EnableDisableGameObject(startMenuPanel.gameObject, true);
+            EnableDisableGameObject(karmaBar.gameObject, false);
         }
 
         private void EnableGameOverPanel()
         {
-            DisableGameObject(gameoverPanel.gameObject, true);
+            EnableDisableGameObject(gameoverPanel.gameObject, true);
         }
 
         private void DisableGameOverPanel()
         {
-            DisableGameObject(gameoverPanel.gameObject, false);
+            EnableDisableGameObject(gameoverPanel.gameObject, false);
         }
 
         private void SwitchOverlayKeys()
         {
             overlayKeySwitch = !overlayKeySwitch;
-            DisableGameObject(overlayButtons.gameObject, overlayKeySwitch);
+            EnableDisableGameObject(overlayButtons.gameObject, overlayKeySwitch);
+        }
+
+        private void DisableSelectionPanel()
+        {
+            EnableDisableGameObject(selectionPanel.gameObject, false);
         }
     }
 }

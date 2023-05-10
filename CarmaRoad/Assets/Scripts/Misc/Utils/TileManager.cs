@@ -34,12 +34,6 @@ namespace CarmaRoad.Utils
             tileLength = bc.size.y;
         }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-            GenerateTilePrefab();
-        }
-
         public void GenerateTilePrefab()
         {
             // Spawn 2 tiles
@@ -57,6 +51,7 @@ namespace CarmaRoad.Utils
 
         void FixedUpdate()
         {
+            if (tile1 == null || tile2 == null) return;
             if (cameraTransform.position.y >= tile2.transform.position.y)
             {
                 SetPosition(out tile1TargetPosition, tile1.transform.position.x, tile2.transform.position.y + tileLength, tile1.transform.position.z);

@@ -44,4 +44,13 @@ namespace CarmaRoad.Enum
         Left,
         Right,
     }
+
+    public enum LevelDifficulty
+    {
+        None,
+        Easy,
+        Medium,
+        Hard,
+        Impossible,
+    }
 }

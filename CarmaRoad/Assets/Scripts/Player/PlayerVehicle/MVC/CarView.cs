@@ -61,6 +61,7 @@ namespace CarmaRoad.Player
         }
         private void SwitchHeadLights()
         {
+            Debug.Log("chek1");
             headlightLeft.enabled = !headlightLeft.enabled;
             headlightRight.enabled = !headlightRight.enabled;
         }
