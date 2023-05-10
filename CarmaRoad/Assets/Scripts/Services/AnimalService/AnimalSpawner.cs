@@ -76,7 +76,7 @@ namespace CarmaRoad.Animal.Spawner
         {
             // random animal to be spawned
             Enum.AllAnimals animalType = GetRandomAnimal();
-            BaseAnimalObject baseAnimal = GetBaseAnimal(animalType);
+            BaseAnimal baseAnimal = GetBaseAnimal(animalType);
 
             // Get Spawn Position close to vehicle
             SpawnPosition(baseAnimal);
@@ -125,12 +125,12 @@ namespace CarmaRoad.Animal.Spawner
             return (Enum.AllAnimals)Random.Range(0, animalList.allAnimals.Length);
         }
 
-        private BaseAnimalObject GetBaseAnimal(Enum.AllAnimals animalIndex)
+        private BaseAnimal GetBaseAnimal(Enum.AllAnimals animalIndex)
         {
             return animalList.allAnimals[(int)animalIndex];
         }
 
-        private void SpawnPosition(BaseAnimalObject baseAnimal)
+        private void SpawnPosition(BaseAnimal baseAnimal)
         {
             // // Get Spawn Position X, then swap it to alternate between the two sides
             if (currentSpawningDirection == Enum.AnimalSpawnPosition.Left)
@@ -156,7 +156,7 @@ namespace CarmaRoad.Animal.Spawner
 
         }
 
-        private void OffsetForSpawnYPosition(BaseAnimalObject baseAnimal)
+        private void OffsetForSpawnYPosition(BaseAnimal baseAnimal)
         {
             // main formula
             // dont need sign as getting sign value from playerVeloY

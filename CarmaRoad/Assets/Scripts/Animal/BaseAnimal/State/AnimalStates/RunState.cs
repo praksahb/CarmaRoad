@@ -3,11 +3,14 @@ namespace CarmaRoad.Animal
 {
     public class RunState : IBaseState
     {
+
+        private Enum.AnimalType animalType;
         public void OnEnterState(AnimalStateManager animal)
         {
             animal.AnimalController.PlayAnimation(Enum.AnimalAnimationClip.Run);
-
             animal.AnimalController.SetModelBoolValues(false, true, false);
+
+            animalType = animal.AnimalController.AnimalModel.AnimalType;
         }
 
         public void OnFixedUpdate(AnimalStateManager animal)
@@ -19,7 +22,7 @@ namespace CarmaRoad.Animal
         {
             if (collider2D.gameObject.TryGetComponent<Player.CarView>(out _))
             {
-                if (animal.AnimalController.AnimalModel.AnimalType == Enum.AnimalType.Small)
+                if (animalType == Enum.AnimalType.Small)
                 {
                     // increase speed and animation. for small animals
                     animal.AnimalController.AnimalView.animatorController.speed = 5f;
@@ -32,14 +35,14 @@ namespace CarmaRoad.Animal
         {
             if (collider2D.gameObject.TryGetComponent<Player.CarView>(out _))
             {
-                if (animal.AnimalController.AnimalModel.AnimalType == Enum.AnimalType.Small)
+                if (animalType == Enum.AnimalType.Small)
                 {
                     // speed and animation speed should be back to normal. for small animals
                     animal.AnimalController.AnimalView.animatorController.speed = 1f;
                     animal.AnimalController.AnimalModel.IsFastRunning = false;
                 }
 
-                if (animal.AnimalController.AnimalModel.AnimalType == Enum.AnimalType.Large)
+                if (animalType == Enum.AnimalType.Medium)
                 {
                     // return to walkling state
                     animal.ChangeState(animal.walkState);

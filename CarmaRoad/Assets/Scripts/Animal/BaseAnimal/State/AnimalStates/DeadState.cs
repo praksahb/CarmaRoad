@@ -20,7 +20,7 @@ namespace CarmaRoad.Animal
 
         public void OnTriggerEnter2D(AnimalStateManager animal, Collider2D collider2D)
         {
-            // do nothing to dead animal
+            // do nothing
         }
 
         public void OnTriggerExit2D(AnimalStateManager animal, Collider2D collider2D)

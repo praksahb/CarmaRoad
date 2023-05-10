@@ -16,6 +16,7 @@ namespace CarmaRoad.Enum
     {
         None,
         Small,
+        Medium,
         Large,
         Human,
     }

@@ -2,7 +2,7 @@ namespace CarmaRoad.Animal
 {
     public class AnimalModel
     {
-        public AnimalModel(BaseAnimalObject animalSO)
+        public AnimalModel(BaseAnimal animalSO)
         {
             AnimalType = animalSO.animalType;
             walkSpeed = animalSO.walkSpeed;
