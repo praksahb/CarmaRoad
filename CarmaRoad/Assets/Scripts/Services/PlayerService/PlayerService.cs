@@ -49,7 +49,7 @@ namespace CarmaRoad
             CarController = new CarController(carModel, baseVehicle.vehiclePrefab, spawnPoint);
         }
 
-        public Action HeadLightOnOff;
+        public Action<bool> HeadLightOnOff;
         public Action<bool> EmergencyLightOnOff;
     }
 }

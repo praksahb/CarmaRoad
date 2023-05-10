@@ -16,7 +16,7 @@ namespace CarmaRoad.Player
             set
             {
                 headlightSwitch = value;
-                PlayerService.Instance.HeadLightOnOff?.Invoke();
+                PlayerService.Instance.HeadLightOnOff?.Invoke(headlightSwitch);
             }
         }
 
@@ -39,7 +39,7 @@ namespace CarmaRoad.Player
             playerControls = new PlayerInputActions();
             playerControls.Vehicle.SetCallbacks(this);
             playerControls.Vehicle.Enable();
-            HeadlightSwitch = true;
+            headlightSwitch = true;
             emergencyLightSwitch = true;
         }
 
