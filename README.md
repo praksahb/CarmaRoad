@@ -7,9 +7,10 @@ Prototype - [Webgl Build](https://devlovex.itch.io/carmaggedon)
 
 ## Main Classes
 ### Animal 
--  three types[Still looking for art assets]
-Animal Road crossing behaviour handled by state machines
-Animal Spawning handled by separate state machine.
+-  primarily three types
+-  Animal Road crossing behaviour handled by state machines
+
+-  Animal Spawning handled by separate state machine.
 - MVC used for creating animal from base Animal class which is stored in a array in animal scriptable object (list)
  
 ### Player
