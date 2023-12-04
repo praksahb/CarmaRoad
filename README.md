@@ -15,8 +15,7 @@ Prototype - [Webgl Build](https://devlovex.itch.io/carmaggedon)
  
 ### Player
 #### Player Vehicle
-- Currently is driving ambulance. 
-- [TODO] add more Vehicle types
+- Currently is driving ambulance.
 - MVC for creating vehicle from baseVehicle class similarly accessed from vehicle SO
 
 ### Design Patterns implemented
